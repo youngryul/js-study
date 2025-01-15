@@ -14,6 +14,9 @@ switch (animal) {
     case 'lion':
         console.log('사자');
         break;
+    default:
+        console.log("해당 사항이 없습니다.")
+        break;
 }
 
 // 미션 2 함수 작성하기
