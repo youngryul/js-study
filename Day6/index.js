@@ -29,12 +29,15 @@ const pokemonApi = async () => {
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
+        /* 코드 리팩토링 foreach -> filter 사용
         let result = []
         data.data.forEach(pokemon => {
             if(pokemon.color === 'green'){
                result.push(pokemon);
             }
         });
+         */
+        const result = data.data.filter((elm) => elm.color === "green")
         console.log("result", result);
     }
     catch (error) {
