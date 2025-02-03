@@ -4,42 +4,43 @@ import { request } from '/js-study/Animal/components/api.js';
 
 export default function App($app) {
     this.state = {
-        currentTab: 'all',
-        photos: []
+        currentTab: window.location.pathname.replace('/js-study', '') || 'all',
+        photos: [],
     };
-    const tabBar = new TabBar({
-        initialState: '',
-        onClick: async (name) => {
-            this.setState({
-                ...this.state,
-                currentTab: name,
-                photos: await request(name==='all' ? '': name),
-            });
-        },
-        $app
-    });
-    const content = new Content({
+
+    const tab = new TabBar({
         $app,
-        initialState: [],
+        initialState: this.state.currentTab,
+        onClick: async (name) => {
+            history.pushState(null, `${name} 사진`, name); // URL 변경
+            this.updateContent(name);
+        },
     });
+
+    const content = new Content({ $app, initialState: [] });
 
     this.setState = (newState) => {
         this.state = newState;
-        tabBar.setState(this.state.currentTab);
+        tab.setState(this.state.currentTab);
         content.setState(this.state.photos);
     };
 
+    this.updateContent = async (tabName) => {
+        const currentTab = tabName === 'all' ? '' : tabName;
+        const photos = await request(currentTab);
+        this.setState({
+            ...this.state,
+            currentTab: tabName,
+            photos: photos,
+        });
+    };
+
+    window.addEventListener('popstate', () => {
+        this.updateContent(window.location.pathname.replace('/', '') || 'all');
+    });
+
     const init = async () => {
-        try {
-            const initialPhotos = await request();
-            this.setState({
-                ...this.state,
-                photos: initialPhotos,
-            });
-        }
-        catch (err) {
-            console.log(err);
-        }
+        this.updateContent(this.state.currentTab);
     };
 
     init();
