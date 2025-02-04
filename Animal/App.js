@@ -4,7 +4,7 @@ import { request } from '/js-study/Animal/components/api.js';
 
 export default function App($app) {
     this.state = {
-        currentTab: window.location.pathname.replace('/js-study', '') || 'all',
+        currentTab: 'all',
         photos: [],
     };
 
@@ -36,7 +36,7 @@ export default function App($app) {
     };
 
     window.addEventListener('popstate', () => {
-        this.updateContent(window.location.pathname.replace('/', '') || 'all');
+        this.updateContent(window.location.pathname.replace('/js-study/js-study/', '') || 'all');
     });
 
     const init = async () => {
