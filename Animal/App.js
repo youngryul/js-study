@@ -1,6 +1,6 @@
-import TabBar from '/js-study/Animal/components/TabBar.js';
-import Content from '/js-study/Animal/components/Content.js';
-import { request } from '/js-study/Animal/components/api.js';
+import TabBar from '/Animal/components/TabBar.js';
+import Content from '/Animal/components/Content.js';
+import { request } from '/Animal/components/api.js';
 
 export default function App($app) {
     this.state = {
@@ -36,7 +36,7 @@ export default function App($app) {
     };
 
     window.addEventListener('popstate', () => {
-        this.updateContent(window.location.pathname.replace('/js-study/js-study/', '') || 'all');
+        this.updateContent(window.location.pathname.replace('/', '') || 'all');
     });
 
     const init = async () => {
